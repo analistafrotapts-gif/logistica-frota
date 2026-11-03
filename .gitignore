@@ -6,3 +6,6 @@ public/config.js
 public/vendor/
 .dados/
 .tools/
+
+.env*
+!.env.example

@@ -1,0 +1,8 @@
+.git
+.tools
+.dados
+.env*
+!.env.example
+node_modules
+laboratorio
+testes
