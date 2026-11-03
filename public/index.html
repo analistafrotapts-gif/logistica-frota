@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="pt-BR" data-tema="claro">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pau Brasil · Gestão da Frota</title>
+<link rel="stylesheet" href="/css/painel.css">
+<style>
+  :root { --fonte-sans: Montserrat; --fonte-mono: 'IBM Plex Mono'; }
+  body { margin: 0; background: var(--color-fundo); color: var(--color-texto); font-family: var(--fonte-sans), sans-serif; }
+  main { max-width: 1600px; margin: auto; padding: 24px; }
+  .acesso { max-width: 380px; margin: 10vh auto; padding: 32px; border: 1px solid var(--color-linha); border-radius: 12px; background: var(--color-superficie); }
+  .acesso h1 { margin: 0 0 20px; font-size: 22px; }
+  .acesso form { display: grid; gap: 14px; }
+  .acesso label { display: grid; gap: 6px; font-size: 14px; font-weight: 600; }
+  .acesso input { min-height: 44px; padding: 0 12px; border: 1px solid var(--color-linha); border-radius: 6px; font: inherit; background: var(--color-fundo); color: inherit; }
+  .acesso button[type=submit] { min-height: 44px; border: 0; border-radius: 6px; background: var(--color-vinho); color: var(--color-sobre-vinho); font: inherit; font-weight: 700; cursor: pointer; }
+  .acesso button:disabled { opacity: .5; }
+  .acesso-link { border: 0; background: none; color: inherit; text-decoration: underline; cursor: pointer; font: inherit; font-size: 13px; justify-self: start; padding: 0; }
+  .acesso-erro { color: #b42318; margin: 0; font-size: 14px; }
+  .acesso-ok { margin: 0; font-size: 14px; }
+</style>
+</head>
+<body>
+<main>
+  <div id="formulario">Carregando…</div>
+  <noscript>Habilite JavaScript para usar o painel.</noscript>
+</main>
+<script src="/config.js"></script>
+<script src="/vendor/supabase.js"></script>
+<script src="/js/recursos-pdf.js"></script>
+<script src="/js/sessao.js"></script>
+<script src="/js/painel.js"></script>
+</body>
+</html>

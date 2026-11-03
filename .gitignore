@@ -1,0 +1,8 @@
+node_modules
+.vercel
+.env
+.env*.local
+public/config.js
+public/vendor/
+.dados/
+.tools/
