@@ -56,7 +56,7 @@ async function rpc(usuario, nome, params = {}, opcoes) {
 before(async () => {
   db = new PGlite();
   await db.exec(AMBIENTE_SUPABASE);
-  for (const arquivo of readdirSync(PASTA).filter((a) => a.endsWith('.sql')).sort()) {
+  for (const arquivo of readdirSync(PASTA).filter((a) => a.endsWith('.sql') && a < '20261110').sort()) {
     // pg_cron não existe no PGlite; o schema cron acima faz o papel dele.
     const sql = readFileSync(new URL(arquivo, PASTA), 'utf8').replace('create extension if not exists pg_cron;', '');
     try {
@@ -158,6 +158,42 @@ test('fluxo completo: cadastro de fornecedor, rascunho e finalização de NF de 
   // A leitura pela API (como faz a tela) enxerga a nota finalizada.
   const notas = await comoUsuario(OPERADOR, (tx) => tx.query('select numero from public.frota_gestao_notas'));
   assert.deepEqual(notas.rows, [{ numero: '1001' }]);
+});
+
+test('atualiza banco existente sem perder NF; edição, exclusão com aplicação e relançamento', async () => {
+  const veiculos=(await db.query('select id,placa,operacao_id from veiculos order by placa limit 2')).rows;
+  const unidade=(await db.query("select id from operacoes where nome='Sumé'")).rows[0].id;
+  const nota={numero:'99110',serie:'1',chave:'',emissao:'2026-11-10',fornecedor:'FORNECEDOR SINTETICO ATUALIZACAO',documento_fornecedor:'00000000000191',documento_destinatario:'',total:'100.00',informacoes:'',avisos:[],itens:[{numero:'1',codigo:'TESTE',descricao:'PECA SINTETICA ATUALIZACAO',unidade:'UN',quantidade:'2',unitario:'50.00',bruto:'100.00',desconto:'0.00',acrescimo:'0.00'}]};
+  const rateio={destino:'veiculo',veiculo_id:veiculos[0].id,placa:veiculos[0].placa,unidade_id:veiculos[0].operacao_id,centro_custo:'201',conta_id:'',categoria_id:'',quantidade:'1',valor:'50.00',os_item_id:'',executado_em:'',classificacao:'Elétrico'};
+  const linhas=[veiculos[0].placa,'Estoque'].map((veiculo,i)=>({id:`1:${i}`,veiculo,numero_os:i?'—':'A gerar',numero_nf:nota.numero,centro_custo:i?'Estoque':'Entrega 201',conta_codigo:'4120503',conta:'4120503 · Peças preventiva',categoria_hbf:'pecas',pecas_servicos:nota.itens[0].descricao,servicos:'0.00',pecas:'50.00',lavagem:'0.00',pneus:'0.00',oleo_lubrificante:'0.00',desconto:'0.00',valor_total:'50.00',valor_alocado:'50.00',quantidade:'1',unidade:'UN',manutencao:'preventiva',classificacao:'Elétrico'}));
+  nota.dados_fiscais={conferencia_hbf:{formato:1,assinatura:'fixture isolada',linhas}};
+  const dados={formato:1,nota,etapa:4,unidadeFiscal:veiculos[0].operacao_id,referencia:'',destinos:{},conferido:true,finalizacao:{fornecedor_id:'',emissao:'',veiculos:{},itens:{'1':{catalogo_id:'',fator:'1',local_id:'',manutencao:'preventiva',rateios:[rateio,{...rateio,destino:'estoque',veiculo_id:'',placa:'',centro_custo:'estoque'}]}}}};
+  const recibo=await rpc(OPERADOR,'frota_gestao_finalizar_envio',{p_dados:dados,p_chave:randomUUID(),p_confirmado:true});
+  const original=(await db.query('select * from frota_gestao_lancamentos where id=$1',[recibo.nota_id])).rows;
+  const legadas=(await db.query('select * from frota_gestao_notas order by id')).rows;
+  const cadastro=(await db.query('select * from veiculos order by id')).rows;
+  for(const nome of readdirSync(PASTA).filter(n=>n.startsWith('20261110')).sort())await db.transaction(tx=>tx.exec(readFileSync(new URL(nome,PASTA),'utf8')));
+  await db.exec('begin read only');
+  await db.exec(readFileSync(new URL('../supabase/verificacoes/atualizacao-20261110.sql',import.meta.url),'utf8'));
+  await db.exec('rollback');
+  assert.deepEqual((await db.query('select * from frota_gestao_lancamentos where id=$1',[recibo.nota_id])).rows,original);
+  assert.deepEqual((await db.query('select * from frota_gestao_notas order by id')).rows,legadas);
+  assert.deepEqual((await db.query('select * from veiculos order by id')).rows,cadastro);
+  const editada=structuredClone(dados);editada.unidadeFiscal=unidade;editada.nota.dados_fiscais.conferencia_hbf.linhas[0].veiculo=veiculos[1].placa;
+  Object.assign(editada.finalizacao.itens['1'].rateios[0],{veiculo_id:veiculos[1].id,placa:veiculos[1].placa,unidade_id:veiculos[1].operacao_id});
+  const chave=randomUUID(),params={p_id:recibo.nota_id,p_base:recibo.versao_id,p_chave:chave,p_dados:editada,p_motivo:'Corrigir placa e unidade fiscal',p_confirmado:true};
+  const revisao=await rpc(OPERADOR,'frota_gestao_confirmar_edicao_simplificada',params);assert.equal(revisao.numero_versao,2);assert.deepEqual(await rpc(OPERADOR,'frota_gestao_confirmar_edicao_simplificada',params),revisao);
+  const consulta=await rpc(OPERADOR,'frota_gestao_carregar_edicao_simplificada',{p_id:recibo.nota_id});assert.equal(consulta.historico.length,2);assert.equal(consulta.registro.unidade_fiscal_id,unidade);
+  const central=await rpc(OPERADOR,'frota_gestao_listar_simplificado');assert.equal(central.filter(n=>n.id===recibo.nota_id).length,1);
+  const painel=await rpc(OPERADOR,'frota_gestao_dashboard_simplificado');assert.deepEqual(painel.custos.filter(n=>n.lancamento_id===recibo.nota_id).map(n=>[n.placa,n.valor]),[[veiculos[1].placa,'50.00']]);
+  const lote=(await rpc(OPERADOR,'frota_gestao_estoque_simplificado')).lotes.find(l=>l.lancamento_id===recibo.nota_id);
+  await rpc(OPERADOR,'frota_gestao_aplicar_simplificado',{p_chave:randomUUID(),p_confirmado:true,p_dados:{lote_id:lote.id,veiculo_id:veiculos[1].id,centro_custo:'301',quantidade:'1',manutencao:'corretiva'}});
+  await assert.rejects(rpc(OPERADOR,'frota_gestao_apagar_simplificado',{p_id:recibo.nota_id,p_base:revisao.versao_id,p_chave:randomUUID(),p_motivo:'Teste sem chave de servidor',p_confirmado:true},{chave:null}),/Chave de servidor/);
+  await rpc(OPERADOR,'frota_gestao_apagar_simplificado',{p_id:recibo.nota_id,p_base:revisao.versao_id,p_chave:randomUUID(),p_motivo:'Aplicação incorreta; relançar corrigida',p_confirmado:true});
+  const apagada=await rpc(OPERADOR,'frota_gestao_dashboard_simplificado');for(const campo of ['custos','compras','estoque'])assert.ok(!apagada[campo].some(n=>n.lancamento_id===recibo.nota_id));
+  assert.deepEqual((await db.query('select * from frota_gestao_lancamentos where id=$1',[recibo.nota_id])).rows,original);
+  const nova=await rpc(OPERADOR,'frota_gestao_finalizar_envio',{p_dados:dados,p_chave:randomUUID(),p_confirmado:true});assert.notEqual(nova.nota_id,recibo.nota_id);
+  await db.exec(readFileSync(new URL('20261110001800_frota_100_exclusao_simplificada.sql',PASTA),'utf8'));
 });
 
 test('perfil desativado perde o acesso', async () => {

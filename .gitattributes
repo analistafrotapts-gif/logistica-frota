@@ -1,0 +1,4 @@
+# Espaços em templates do gerador PDF são parte do formato, não devem ser removidos.
+public/js/painel.js -whitespace linguist-generated=true
+public/css/painel.css linguist-generated=true
+public/js/recursos-pdf.js linguist-generated=true

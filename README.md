@@ -1,5 +1,9 @@
 # Pau Brasil · Gestão da Frota
 
+**Atualização de 10/11/2026:** ver [ATUALIZACAO-2026-11-10.md](ATUALIZACAO-2026-11-10.md).
+Em banco existente, não executar a instalação completa nem os dados iniciais.
+A publicação das telas não instala os SQLs 99/100 e não altera lançamentos.
+
 Painel de custos da frota (NF-e/NFS-e, estoque, OS, HBF e dashboard) com banco **Supabase** compartilhado pela equipe e hospedagem na **Vercel**.
 
 ```
@@ -15,7 +19,7 @@ Toda gravação passa pelas funções `frota_gestao_*` do banco, que aplicam as 
 
 | Pasta | Conteúdo |
 |---|---|
-| `supabase/migrations/` | Banco completo: base (perfis, unidades, veículos), SQLs 84–98 do módulo, agendamento, permissões e dados iniciais |
+| `supabase/migrations/` | Banco completo: base (perfis, unidades, veículos), SQLs 84–100 do módulo, agendamento, permissões e dados iniciais |
 | `supabase/instalacao-completa.sql` | Todas as migrations num arquivo só, para colar no SQL Editor |
 | `api/rpc.js` | Função da Vercel que repassa as chamadas com a chave de servidor |
 | `public/` | Painel (telas, login, leitor de PDF/OCR das notas) |
@@ -90,4 +94,4 @@ npm run local   # painel em http://localhost:3000 com banco persistente em .dado
 
 Usuários do ambiente local: `admin@local.test` e `operador@local.test` (este último cai no fluxo de primeiro acesso), ambos com a senha `senha-local-123`.
 
-As telas (`public/js/painel.js`) foram geradas a partir do laboratório por `ferramentas/extrair-do-laboratorio.mjs`, que troca o banco embutido no navegador pelo Supabase. Se vier uma versão nova do laboratório, rode o script de novo apontando para o HTML.
+As telas atuais (`public/js/painel.js`) são compiladas por `ferramentas/gerar-versao-atualizada.mjs`, com os componentes do projeto fonte e os estilos/recursos do HTML aprovado. O banco local não é incluído. O extrator antigo fica apenas como referência histórica; não usá-lo para regenerar esta versão.

@@ -6,7 +6,7 @@ const URL_SUPABASE = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABAS
 const CHAVE_PUBLICA = process.env.SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 const CHAVE_FROTA = process.env.FROTA_GESTAO_CHAVE;
 
-const ROTINA = /^frota_gestao_[a-z_]+$/;
+import { ROTINAS_PERMITIDAS } from './rotinas.js';
 const PARAMETRO = /^p_[a-z_]+$/;
 
 export default async function handler(req, res) {
@@ -22,7 +22,7 @@ export default async function handler(req, res) {
     return res.status(401).json({ data: null, error: { code: '42501', message: 'Sessão expirada. Entre novamente.' } });
   }
   const { nome, params = {} } = req.body ?? {};
-  if (typeof nome !== 'string' || !ROTINA.test(nome) || typeof params !== 'object' || Array.isArray(params) ||
+  if (typeof nome !== 'string' || !ROTINAS_PERMITIDAS.has(nome) || !params || typeof params !== 'object' || Array.isArray(params) ||
       Object.keys(params).some((p) => !PARAMETRO.test(p))) {
     return res.status(400).json({ data: null, error: { code: '42501', message: 'Rotina não permitida.' } });
   }
