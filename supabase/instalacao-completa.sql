@@ -3349,7 +3349,7 @@ create trigger preservar_original before update or delete on public.frota_gestao
 drop trigger if exists registrar_auditoria on public.frota_gestao_edicoes_simplificadas;
 create trigger registrar_auditoria after insert on public.frota_gestao_edicoes_simplificadas for each row execute function public.frota_gestao_auditar();
 
-create or replace view public.frota_gestao_lancamentos_vigentes with (security_barrier=true) as
+create or replace view public.frota_gestao_lancamentos_vigentes with (security_barrier=true,security_invoker=true) as
 select n.id,coalesce(e.id,n.versao_id) versao_id,n.rascunho_id,n.chave,n.revisao,
  coalesce(e.hbf->>'numero_nf',n.numero) numero,coalesce(e.hbf->>'serie',n.serie) serie,
  coalesce(e.hbf->>'documento_fornecedor',n.documento_fornecedor) documento_fornecedor,
@@ -3362,7 +3362,7 @@ select n.id,coalesce(e.id,n.versao_id) versao_id,n.rascunho_id,n.chave,n.revisao
 from public.frota_gestao_lancamentos n
 left join lateral (select * from public.frota_gestao_edicoes_simplificadas x where x.nota_id=n.id order by x.numero_versao desc limit 1) e on true
 where public.frota_gestao_usuario_ativo();
-create or replace view public.frota_gestao_lotes_vigentes with (security_barrier=true) as
+create or replace view public.frota_gestao_lotes_vigentes with (security_barrier=true,security_invoker=true) as
 select l.* from public.frota_gestao_lancamento_lotes l join public.frota_gestao_lancamentos_vigentes n on n.id=l.lancamento_id
 where exists(select 1 from jsonb_array_elements(n.hbf->'linhas') h where h->>'id'=l.parcela_id);
 revoke all on public.frota_gestao_lancamentos_vigentes,public.frota_gestao_lotes_vigentes from public,anon,authenticated;
@@ -3543,7 +3543,7 @@ $$;
 revoke all on function public.frota_gestao_lancamento_ativo(uuid) from public,anon,authenticated;
 grant execute on function public.frota_gestao_lancamento_ativo(uuid) to authenticated;
 
-create or replace view public.frota_gestao_lancamentos_vigentes with (security_barrier=true) as
+create or replace view public.frota_gestao_lancamentos_vigentes with (security_barrier=true,security_invoker=true) as
 select n.id,coalesce(e.id,n.versao_id) versao_id,n.rascunho_id,n.chave,n.revisao,
  coalesce(e.hbf->>'numero_nf',n.numero) numero,coalesce(e.hbf->>'serie',n.serie) serie,
  coalesce(e.hbf->>'documento_fornecedor',n.documento_fornecedor) documento_fornecedor,

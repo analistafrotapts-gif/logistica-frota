@@ -24,9 +24,11 @@ export const ROTINAS_PERMITIDAS=new Set([
   "frota_gestao_encaminhar_hbf",
   "frota_gestao_estado_ativacao",
   "frota_gestao_estoque_simplificado",
+  "frota_gestao_excluir_cadastro",
   "frota_gestao_finalizar_envio",
   "frota_gestao_finalizar_nf",
   "frota_gestao_finalizar_simplificado",
+  "frota_gestao_historico_estoque",
   "frota_gestao_importar_veiculos",
   "frota_gestao_listar_cadastros",
   "frota_gestao_listar_rascunhos",
@@ -48,6 +50,7 @@ export const ROTINAS_PERMITIDAS=new Set([
   "frota_gestao_recibo_nf",
   "frota_gestao_recibo_revisao",
   "frota_gestao_recibo_simplificado",
+  "frota_gestao_retornar_estoque",
   "frota_gestao_salvar_cadastro",
   "frota_gestao_salvar_rascunho"
 ]);

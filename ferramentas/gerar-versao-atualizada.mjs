@@ -39,7 +39,7 @@ if(/__laboratorio|LABORATORIO LOCAL - SEM VALIDADE FISCAL|Operador local de test
 mkdirSync('public/css',{recursive:true});mkdirSync('public/js',{recursive:true});
 writeFileSync('public/css/painel.css',css);writeFileSync('public/js/recursos-pdf.js',pdf);writeFileSync('public/js/painel.js',js);
 const hash=s=>createHash('sha256').update(s).digest('hex');
-writeFileSync('public/versao.json',JSON.stringify({versao:'2026-11-10-edicao-exclusao',gerado_em:new Date().toISOString(),painel_sha256:hash(js),estilos_sha256:hash(css),recursos_sha256:hash(pdf),banco_requerido:'99 revisado e 100, instalação manual separada'},null,2)+'\n');
+writeFileSync('public/versao.json',JSON.stringify({versao:'2026-11-12-estoque-cadastros-atalhos',gerado_em:new Date().toISOString(),painel_sha256:hash(js),estilos_sha256:hash(css),recursos_sha256:hash(pdf),banco_requerido:'99 revisado, 100, 101 OBZ, 102 milimetragem, 103 destinos, 104 classificacao obrigatoria e 105 retornos/cadastros, instalação manual separada'},null,2)+'\n');
 const lista=readFileSync(resolve(origem,'src/lib/frota/gestao/ativacao.ts'),'utf8');
 const rotinas=[...new Set([...lista.matchAll(/"(frota_gestao_[a-z_]+)"/g)].map(m=>m[1]).concat(['frota_gestao_estado_ativacao','frota_gestao_contrato_completo']))].sort();
 writeFileSync('api/rotinas.js',`// Lista fechada; nenhuma chave ou dado do banco é incluído.\nexport const ROTINAS_PERMITIDAS=new Set(${JSON.stringify(rotinas,null,2)});\n`);

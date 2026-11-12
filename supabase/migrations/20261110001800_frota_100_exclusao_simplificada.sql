@@ -23,7 +23,7 @@ $$;
 revoke all on function public.frota_gestao_lancamento_ativo(uuid) from public,anon,authenticated;
 grant execute on function public.frota_gestao_lancamento_ativo(uuid) to authenticated;
 
-create or replace view public.frota_gestao_lancamentos_vigentes with (security_barrier=true) as
+create or replace view public.frota_gestao_lancamentos_vigentes with (security_barrier=true,security_invoker=true) as
 select n.id,coalesce(e.id,n.versao_id) versao_id,n.rascunho_id,n.chave,n.revisao,
  coalesce(e.hbf->>'numero_nf',n.numero) numero,coalesce(e.hbf->>'serie',n.serie) serie,
  coalesce(e.hbf->>'documento_fornecedor',n.documento_fornecedor) documento_fornecedor,
