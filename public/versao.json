@@ -1,8 +1,8 @@
 {
-  "versao": "2026-11-12-estoque-cadastros-atalhos",
-  "gerado_em": "2026-11-12T16:52:39.228Z",
-  "painel_sha256": "32c39272749563dfbd04ba3708aac231e8e4697165def3e3674223cb67c1f214",
-  "estilos_sha256": "bfe1d10b2ab18aed3b3210a578d9c46ddd7a30fcaeddd9fab6e84a8a0c1c0279",
+  "versao": "2026-11-12-tema-escuro-banco-105",
+  "gerado_em": "2026-11-12T17:26:12.709Z",
+  "painel_sha256": "36552f3f8be012b85f80c9e41d56699b4c325ce6af671b0b158222e32df346c2",
+  "estilos_sha256": "fb237533bcc0f8ca2610d245ca97f7698b991933eb06b5534a525da674b66155",
   "recursos_sha256": "7b8cbb6de527a8540b74afc10e3580645af8a3513261dc3ba96759e597a251b0",
   "banco_requerido": "99 revisado, 100, 101 OBZ, 102 milimetragem, 103 destinos, 104 classificacao obrigatoria e 105 retornos/cadastros, instalação manual separada"
 }

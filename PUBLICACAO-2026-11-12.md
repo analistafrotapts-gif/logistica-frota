@@ -1,5 +1,7 @@
 # Atualização do portal — 12/11/2026
 
+**Atualização posterior confirmada:** os SQLs 101–105 foram autorizados e instalados na migration `20261112172313_frota_101_105_obz_destinos_retornos_cadastros`. Consulte `INSTALACAO-101-105-2026-11-12.md` para as verificações e preservação das 36 tabelas. O diagnóstico abaixo registra o estado anterior à instalação. A revisão posterior também corrigiu placas e números de contas no tema escuro.
+
 Publicação solicitada pelo responsável. Projeto existente: `logistica-frota`, domínio `logistica-frota-frota13.vercel.app`. Não criar projeto nem substituir banco/credenciais.
 
 ## Código incluído
