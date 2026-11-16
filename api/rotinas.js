@@ -1,6 +1,7 @@
 // Lista fechada; nenhuma chave ou dado do banco é incluído.
 export const ROTINAS_PERMITIDAS=new Set([
   "frota_gestao_abrir_os",
+  "frota_gestao_alinhamentos",
   "frota_gestao_apagar_simplificado",
   "frota_gestao_aplicar_simplificado",
   "frota_gestao_cadastros_nf",
@@ -51,6 +52,8 @@ export const ROTINAS_PERMITIDAS=new Set([
   "frota_gestao_recibo_revisao",
   "frota_gestao_recibo_simplificado",
   "frota_gestao_retornar_estoque",
+  "frota_gestao_salvar_alinhamento",
   "frota_gestao_salvar_cadastro",
+  "frota_gestao_salvar_elegibilidade_alinhamento",
   "frota_gestao_salvar_rascunho"
 ]);

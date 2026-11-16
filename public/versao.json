@@ -1,8 +1,8 @@
 {
-  "versao": "2026-11-12-tema-escuro-banco-105",
-  "gerado_em": "2026-11-12T17:26:12.709Z",
-  "painel_sha256": "36552f3f8be012b85f80c9e41d56699b4c325ce6af671b0b158222e32df346c2",
-  "estilos_sha256": "fb237533bcc0f8ca2610d245ca97f7698b991933eb06b5534a525da674b66155",
+  "versao": "2026-11-16-frota-hbf-pneus",
+  "gerado_em": "2026-11-16T18:34:33.407Z",
+  "painel_sha256": "7b26b4cf4bb2d6fe34f3756eaa94ca267a29ee23b14691c1030f740776dc087f",
+  "estilos_sha256": "5b7b586dedc8e8be07177458d3527b7071d68a8a2dd26a3c4da30d5332885872",
   "recursos_sha256": "7b8cbb6de527a8540b74afc10e3580645af8a3513261dc3ba96759e597a251b0",
-  "banco_requerido": "99 revisado, 100, 101 OBZ, 102 milimetragem, 103 destinos, 104 classificacao obrigatoria e 105 retornos/cadastros, instalação manual separada"
+  "banco_requerido": "99 revisado, 100, 101 OBZ, 102 milimetragem, 103 destinos, 104 classificacao obrigatoria e 105 retornos/cadastros e 106 alinhamento/balanceamento, 107 elegibilidade e 108 hodômetro, instalação manual separada"
 }
