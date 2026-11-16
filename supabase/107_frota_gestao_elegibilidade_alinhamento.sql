@@ -14,6 +14,7 @@ create index if not exists frota_gestao_pneus_elegibilidade_veiculo on public.fr
 alter table public.frota_gestao_pneus_elegibilidade enable row level security;
 revoke all on public.frota_gestao_pneus_elegibilidade from public,anon,authenticated;
 grant select on public.frota_gestao_pneus_elegibilidade to authenticated;
+revoke all on sequence public.frota_gestao_pneus_elegibilidade_ordem_seq from public,anon,authenticated;
 drop policy if exists leitura_ativa on public.frota_gestao_pneus_elegibilidade;
 create policy leitura_ativa on public.frota_gestao_pneus_elegibilidade for select to authenticated using(public.frota_gestao_usuario_ativo());
 drop trigger if exists preservar_original on public.frota_gestao_pneus_elegibilidade;

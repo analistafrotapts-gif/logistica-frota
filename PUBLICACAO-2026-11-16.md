@@ -1,5 +1,7 @@
 # Atualização do site — 16/11/2026
 
+**Atualização posterior confirmada:** os SQLs 106–108 foram autorizados e instalados na migration `20261116184047_frota_106_108_alinhamento_elegibilidade_hodometro`. Consulte `INSTALACAO-106-108-2026-11-16.md`. O diagnóstico de ausência abaixo registra o estado anterior à instalação.
+
 Publicação no projeto existente `logistica-frota`, domínio `logistica-frota-frota13.vercel.app`, solicitada pelo responsável. Versão de código anterior: `34b66c6fc9c741287e8d007f8ec60bcb0aea75c3`. Não mudar projeto, banco, usuários nem credenciais.
 
 ## Incluído
