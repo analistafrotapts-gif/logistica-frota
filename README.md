@@ -1,5 +1,7 @@
 # Pau Brasil · Gestão da Frota
 
+**24/11/2026:** ver [PUBLICACAO-2026-11-24.md](PUBLICACAO-2026-11-24.md). SQLs 109 e 110 instalados no banco existente, preservando registros anteriores. Não executar a instalação completa no banco do portal.
+
 **Atualização de 10/11/2026:** ver [ATUALIZACAO-2026-11-10.md](ATUALIZACAO-2026-11-10.md).
 Em banco existente, não executar a instalação completa nem os dados iniciais.
 A publicação das telas não instala os SQLs 99/100 e não altera lançamentos.

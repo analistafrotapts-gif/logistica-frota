@@ -1,3 +1,4 @@
+import {Milimetragem} from "@/components/frota/Milimetragem";
 import { InicioPneus } from "@/components/frota/MenuGestao";
 import { Alinhamentos } from "@/app/portal/gestao-frota/pneus/alinhamento/Alinhamentos";
 import { consultarAlinhamentos } from "@/app/portal/gestao-frota/pneus/alinhamento/actions";
@@ -34,6 +35,7 @@ async function tela(rota:string):Promise<ReactNode>{
  const url=new URL(rota,location.origin),caminho=url.pathname;
  if(caminho==="/")return <InicioGestao/>;
  if(caminho==="/pneus")return <InicioPneus/>;
+  if(caminho==="/pneus/milimetragem")return <Milimetragem/>;
   if(caminho==="/pneus/alinhamento")return <Alinhamentos inicial={await consultarAlinhamentos()}/>;
   if(caminho==="/notas/nova"){const base=await cadastrosBase();return <Lancamento veiculos={base.veiculos} operacoes={base.unidades} erroCadastro={null}/>;}
  if(caminho==="/notas")return <CentralNotas inicial={await consultarCentralNotas()} consultar={consultarCentralNotas}/>;

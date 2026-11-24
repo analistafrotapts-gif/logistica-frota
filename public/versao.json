@@ -1,8 +1,8 @@
 {
-  "versao": "2026-11-16-frota-hbf-pneus",
-  "gerado_em": "2026-11-16T18:34:33.407Z",
-  "painel_sha256": "7b26b4cf4bb2d6fe34f3756eaa94ca267a29ee23b14691c1030f740776dc087f",
-  "estilos_sha256": "5b7b586dedc8e8be07177458d3527b7071d68a8a2dd26a3c4da30d5332885872",
+  "versao": "2026-11-24-destinos-milimetragem",
+  "gerado_em": "2026-11-24T16:59:38.977Z",
+  "painel_sha256": "b09956f8ec18ddb6bfb1e3b6facdbcd2dfe5dd0b719ccbac99234d4f6f6c3de8",
+  "estilos_sha256": "7919b881ca69c06cb24ad82b75d482672cbfc2c973bc2f12a6e21ea2f7c578e3",
   "recursos_sha256": "7b8cbb6de527a8540b74afc10e3580645af8a3513261dc3ba96759e597a251b0",
-  "banco_requerido": "99 revisado, 100, 101 OBZ, 102 milimetragem, 103 destinos, 104 classificacao obrigatoria e 105 retornos/cadastros e 106 alinhamento/balanceamento, 107 elegibilidade e 108 hodômetro, instalação manual separada"
+  "banco_requerido": "99 revisado, 100, 101 OBZ, 102 milimetragem, 103 destinos, 104 classificacao obrigatoria e 105 retornos/cadastros e 106 alinhamento/balanceamento, 107 elegibilidade e 108 hodômetro e 109 Inspeção Preventiva e 110 Serviços Elétricos, instalação manual separada"
 }
